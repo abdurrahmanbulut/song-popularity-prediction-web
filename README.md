@@ -1,4 +1,4 @@
-# song popularity prediction project
+# song popularity prediction web project
 
 ```
 npm install
