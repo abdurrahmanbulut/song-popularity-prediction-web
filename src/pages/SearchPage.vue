@@ -106,7 +106,7 @@
   }
   @media only screen and (min-width: 0px) {
     .result-style{
-    width: 90%;
+    width: 100%;
    }
   }
 </style>
