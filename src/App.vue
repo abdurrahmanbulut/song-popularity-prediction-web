@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <header class="header" style="background-color:#F7F7F7 !important; ">
-      <h1 class="header__title" style="background-color:#F7F7F7 !important; display:flex; justify-content: start" >
-        <router-link :to="{ path: '/' }"> <p class="header-title">Song Popularity Prediction </p> </router-link>
-      </h1>
-    </header>
-    <transition name="toaster">
+      
+    <div class="boddy">
+      
+      <transition name="toaster">
       <Toaster v-if="showToaster">Feature not available yet</Toaster>
     </transition>
     <router-view ></router-view>
-    <footer style="height: 5rem; display: flex; justify-content: end; align-items: center; margin-right:10rem">
-      Abdurrahman Bulut / Graduation Project
-    </footer>
+    </div>
+    
   </div>
 </template>
 
@@ -63,67 +60,33 @@
 </script>
 
 <style lang="scss" scoped>
-  #app {
-    background-color: white;
-    font-family: $font-family;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: black;
 
-    display: grid;
-    grid-template-rows: var(--header-height) auto;
-  }
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&display=swap');
 
-  .header {
-    background-color: $color-spotify-black;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: var(--base-lateral-padding);
 
-    &__logo {
-      display: flex;
-      height: 100%;
-      width: var(--header-height);
-      align-items: center;
-      justify-content: center;
-    }
+html, body {
+font-family: 'IBM Plex Serif', serif;
 
-    &__title {
-      margin-bottom: 0;
-      text-align: center;
-      width: calc(100% - var(--header-height));
-      margin-right: var(--header-height);
+}
 
-      img {
-        display: block;
-        width: 100%;
-      }
-    }
-  }
+#app{
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+font-family: 'IBM Plex Serif', serif;
 
-  .toaster-enter,
-  .toaster-leave-to {
-    opacity: 0;
-    transform: translate(-50%, -50px);
-  }
-  .header-title{
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  }
-  .toaster-enter-active,
-  .toaster-leave-active {
-    transition: all .4s ease;
-  }
-
-  .toaster-enter-to,
-  .toaster-leave {
-    opacity: 1;
-    transform: translate(-50%, 0px);
-  }
-  .header__title{
-    font-size: 1.6rem;
-    font-family:'Times New Roman', Times, serif;
-  }
-
+}
+.boddy{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width:100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("https://media1.giphy.com/media/BHNfhgU63qrks/giphy.gif?cid=ecf05e47mcejtafc1jz6u7nmwvg6pb3k3vfikl92ug34muen&rid=giphy.gif&ct=g");
+}
 </style>

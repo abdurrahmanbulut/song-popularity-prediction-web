@@ -1,6 +1,6 @@
 <template>
+  
   <div class="container">
-    <img class="login-logo"  alt="login logo" src="../assets/img/icons/logo.png" />
     <div class="login-text">
       <p>
         Welcome! In order to use this app you need to authorize it by clicking
@@ -30,55 +30,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .container {
-  --grid-row-scheme: 3fr 2fr 1fr;
-  --grid-row-gap: 10px;
-  --grid-align: end;
-  --login-btn-justify: stretch;
-  --login-btn-margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: 1px solid white;
+  align-items: center;
+  height: 50%;
+  padding: 3rem;
+  border-radius: 2rem;
+  background-color: white;
+  color: black;
+  opacity: 0.8;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 
-  width: 100%;
-  height: calc(100vh - var(--header-height) - 8.5vh);
-  padding: var(--container-padding);
-  display: grid;
-  grid-template-rows: var(--grid-row-scheme);
-  justify-items: center;
-  align-items: var(--grid-align);
-  row-gap: var(--grid-row-gap);
 
-  @media only screen and (min-width: map-get($breakpoints, "sm")) {
-    --login-btn-justify: auto;
-    --login-btn-margin-bottom: auto;
-  }
-
-  @media only screen and (min-width: map-get($breakpoints, "lg")) {
-    --grid-row-scheme: 2fr 1fr 1fr;
-    --grid-row-gap: 30px;
-    --grid-align: center;
-  }
 }
-
-.login-logo {
-  display: block;
-  width: clamp(170px, 60%, 150px);
-  height: auto;
-  align-self: end;
+.login-btn{
+  width: 10rem;
+  height: 3rem;
 }
-
-.login-text {
-  max-width: 600px;
-
-  @media only screen and (min-width: map-get($breakpoints, 'lg')) {
-    p {
-      font-size: 1.4rem;
-      margin-bottom: 1.5rem;
-    }
-  }
-}
-
-.login-btn {
-  min-width: 200px;
-  justify-self: var(--login-btn-justify);
-  margin-bottom: var(--login-btn-margin-bottom);
+.login-text{
+  text-align: center;
 }
 </style>

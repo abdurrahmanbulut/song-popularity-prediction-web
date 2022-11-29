@@ -1,7 +1,7 @@
 <template > 
-  <div class="" style="display:flex; flex-direction:column; justify-content: center; align-items:center ; margin-top: 4rem; min-height:74vh">
-    <div class="search__controls" style="margin-bottom:4rem">
-      <div class="search__searchbox">
+  <div class="" style="display:flex; flex-direction:column; justify-content: center; align-items:center ; margin-top: 4rem; min-height:100vh; width: 80%">
+    <div  style="margin-bottom:4rem">
+      <div>
         <SearchBox v-model="searchTerm" @input="performSearch" />
       </div>
     </div>
@@ -84,37 +84,29 @@
 <style lang="scss" scoped>
 @import '../assets/styles/scss/_layout.scss';
   .result-style{
-    background-color:red; 
     width: 100%;
   }
-  .search {
-    &__controls {
-      grid-area: search;
-    }
-
-    &__searchbox {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    &__message {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      p {
-        font-size: 2rem;
-      }
-    }
-  }
+ 
   @media only screen and (min-width: map-get($breakpoints, 'lg')) {
     .result-style{
-    background-color:red; 
-    width: 40%;
+    width: 75%;
   }
   
+  }
+  @media only screen and (min-width: map-get($breakpoints, 'md')) {
+    .result-style{
+    width: 75%;
+  }
+  
+  }
+   @media only screen and (min-width: map-get($breakpoints, 'sm')) {
+    .result-style{
+    width: 75%;
+   }
+  }
+  @media only screen and (min-width: 0px) {
+    .result-style{
+    width: 90%;
+   }
   }
 </style>

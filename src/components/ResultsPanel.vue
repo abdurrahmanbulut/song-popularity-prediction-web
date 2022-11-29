@@ -1,16 +1,14 @@
 <template >
-  <div class="results" style="background-color:white;"> 
-    <div class="results__type" style="background-color:white !important;">
-      <h3 style=" color: black !important; text-align:center">{{ typeTitle }}</h3>
+  <div class="results" style=" margin-bottom:3rem; "> 
+    <div  style=" margin-bottom:3rem; margin-top:2rem;">
+      <h2 style=" color: black !important; text-align:center">{{ typeTitle }}</h2>
     </div>
     <SpotifyCard
       v-for="item in results"
       :key="item.id"
       :cardInfo="item"
     />
-    <div v-if="showSeeMore" class="results__see-more">
-      <span @click="seeMoreClicked">See more</span>
-    </div>
+
   </div>
 </template>
 
@@ -55,6 +53,7 @@ $result-items-spacing: 20px;
       > *:not(:last-of-type) {
         margin-bottom: $result-items-spacing;
       }
+      width: 100%;
 
     &__type {
       position: sticky;
