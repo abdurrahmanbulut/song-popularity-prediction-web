@@ -1,0 +1,43 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+html {
+  font-size: var(--base-font-size);
+}
+
+body {
+  margin: 0;
+  background-color: $body-background-color;
+  color: $color-white;
+  font-family: $font-family;
+}
+
+h1 {
+  font-size: 2.6rem;
+  font-weight: bold;
+  margin-bottom: 1.6rem;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.4rem;
+}
+
+strong {
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
