@@ -13,6 +13,7 @@
     "lodash.debounce": "^4.0.8",
     "qs": "^6.5.2",
     "vue": "^2.6.11",
+    "vue-cli-plugin-s3-deploy": "next",
     "vue-listen-voice": "^1.0.4",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
