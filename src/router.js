@@ -27,6 +27,14 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: '/searchdemo',
+    name: 'searchdemo',
+    component: SearchPage,
+    meta: {
+      requiresAuth: false
+    }
+  },
 ];
 
 const router = new VueRouter({
