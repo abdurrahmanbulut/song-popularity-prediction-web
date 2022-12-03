@@ -112,14 +112,14 @@
         >
         <br> <br>
           <label for="actual-popularity">Actual popularity</label> <br>
-          <div class="animated-progress progress-white">
-            <span style="color:black"> {{ this.actual_popularity }}%</span>
+          <div class="animated-progress progress-white" :style="cssProps">
+            <span class="actual" style="color:black" > {{ this.actual_popularity }}%</span>
           </div>
           <br> <br>
 
           <label for="predicted-popularity">Predicted popularity</label> <br>
-          <div class="animated-progress progress-white">
-            <span style="color:black"> {{ this.actual_popularity }}%</span>
+          <div class="animated-progress progress-white" :style="cssProps">
+            <span class="predicted" style="color:black"> {{ this.predicted_popularity }}%</span>
           </div>
 
           <br> <br>
@@ -153,11 +153,17 @@
       <span class="spotify-card__subtitle">{{ cardSubtitle }}</span>
     </div>
   </div>
+  
 </template>
+  
 
 <script>
 import { mapActions } from 'vuex';
-import axios from 'axios';1
+import axios from 'axios';
+import * as tf from '@tensorflow/tfjs';
+
+const model1 = (async () => {await tf.loadLayersModel('https://cdn.glitch.global/0149bfe4-f8da-4a4d-8104-a35d005a38d0/model.json?v=1670072004244')})()
+
 export default {
   props: {
     cardInfo: {
@@ -172,6 +178,7 @@ export default {
       playSong: false,
       newUrl: '',
       actual_popularity: 0,
+      predicted_popularity: 50,
       posts: [],
       audio_features:{}, 
       album_features:{},
@@ -195,6 +202,13 @@ export default {
       }
       return subtitleText;
     },
+    cssProps() {
+      return {
+        '--progress-white-actual': (this.actual_popularity) + "%",
+        '--progress-white-predicted': (this.predicted_popularity) + "%"
+
+      }
+    }
   },
   methods: {
     ...mapActions(['diplayToaster']),
@@ -214,7 +228,14 @@ export default {
       //this.diplayToaster();
     },
     predict(){
-
+      var year;
+      year = +this.album_features.album.release_date.substring(0,4);
+      if(year >= 1920 && year < 1940){
+        this.predicted_popularity = model1.predict()
+      }
+    
+      console.log((+this.album_features.album.release_date.substring(0,4))+3);
+      //this.actual_popularity = 
     },
     getPosts(cardinfo) {
       axios({
@@ -357,16 +378,27 @@ export default {
   position: relative;
 }
 
-.animated-progress span {
+.animated-progress .actual {
   height: 100%;
   display: block;
-  width: 45%;
+  width: var(--progress-white-actual);
   color: rgb(255, 251, 251);
   line-height: 30px;
   position: absolute;
   text-align: end;
   padding-right: 5px;
 }
+.animated-progress .predicted {
+  height: 100%;
+  display: block;
+  width: var(--progress-white-predicted);
+  color: rgb(255, 251, 251);
+  line-height: 30px;
+  position: absolute;
+  text-align: end;
+  padding-right: 5px;
+}
+
 
 .progress-white span {
   background-color: rgb(255, 251, 251);
