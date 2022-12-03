@@ -160,9 +160,9 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs';
 
-const model1 = (async () => {await tf.loadLayersModel('https://cdn.glitch.global/0149bfe4-f8da-4a4d-8104-a35d005a38d0/model.json?v=1670072004244')})()
+// const model1 = (async () => {await tf.loadLayersModel('')})()
 
 export default {
   props: {
@@ -228,13 +228,13 @@ export default {
       //this.diplayToaster();
     },
     predict(){
-      var year;
-      year = +this.album_features.album.release_date.substring(0,4);
-      if(year >= 1920 && year < 1940){
-        this.predicted_popularity = model1.predict()
-      }
+      // var year;
+      // year = +this.album_features.album.release_date.substring(0,4);
+      // if(year >= 1920 && year < 1940){
+      //   this.predicted_popularity = model1.predict()
+      // }
     
-      console.log((+this.album_features.album.release_date.substring(0,4))+3);
+      // console.log((+this.album_features.album.release_date.substring(0,4))+3);
       //this.actual_popularity = 
     },
     getPosts(cardinfo) {
