@@ -126,7 +126,7 @@
           
           <div style="width: 70%; height: 30px; border-radius: 5px; ; display: flex; justify-content: space-between">
             <div style="width: 50%; ">
-              <input style="width: 100%; height: 100%" type="number" min="1920" max="2022" step="1" value="2016"  placeholder="year: yyyy">
+              <input style="width: 100%; height: 100%" type="number" min="1920" max="2022" step="1" :value="this.year_of_song"  placeholder="year: yyyy">
             </div>
             <div style="width: 30%; ">
               <button @click="predict" style="width: 100%; height: 100%">Predict</button>
@@ -182,6 +182,7 @@ export default {
       posts: [],
       audio_features:{}, 
       album_features:{},
+      year_of_song : 0,
     };
   },
   computed: {
@@ -223,11 +224,14 @@ export default {
       
       this.getPosts(this.cardInfo);
       this.album_features = this.cardInfo;
+      this.year_of_song = +this.album_features.album.release_date.substring(0,4)
+
       //console.log("posts", this.posts)
       //console.log("token", localStorage.getItem('spotify-access-token'))
       //this.diplayToaster();
     },
     predict(){
+      this.year_of_song += 1;
       // var year;
       // year = +this.album_features.album.release_date.substring(0,4);
       // if(year >= 1920 && year < 1940){
