@@ -7,7 +7,15 @@ npm install
 ```
 npm run serve
 ```
+### Screenshots
+* Dashboard
+![Dashboard](https://github.com/abdurrahmanbulut/song-popularity-prediction-web/blob/master/src/assets/img/dashboard.PNG?raw=true)
+* Search
+![Search](https://github.com/abdurrahmanbulut/song-popularity-prediction-web/blob/master/src/assets/img/search.PNG?raw=true)
+* Play and see features
+![Play](https://github.com/abdurrahmanbulut/song-popularity-prediction-web/blob/master/src/assets/img/play.PNG?raw=true)
 
+Machine Learning model will be integrated soon..
 
 ### Note
 
