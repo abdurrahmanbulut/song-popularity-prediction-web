@@ -237,7 +237,7 @@
               />
             </div>
             <div style="width: 30%">
-              <button @click="predict" class="btn-style">Predict</button>
+              <button @click="predict" class="btn-style-predict">Predict</button>
             </div>
           </div>
         </div>
@@ -325,8 +325,29 @@ export default {
       return prediction;
     },
     predict() {
-      this.year_of_song += 1;
-      const tfarr = [
+    
+       // Create one dimensional array
+      const gfg = [[3.65051179e-02, 0.00000000e+00, 2.55297679e-01, 9.69000000e-01,
+         8.18181818e-01, 8.06090920e-01, 0.00000000e+00, 1.08135942e-01,
+         9.98995984e-06, 8.71000000e-03, 1.69000000e-01, 7.82000000e-01,
+         6.19666289e-01, 8.00000000e-01]]
+    
+      gfg[0][0] = this.audio_features.duration_ms;
+      gfg[0][1] = this.album_features.explicit;
+      gfg[0][2] = this.audio_features.danceability;
+      gfg[0][3] = this.audio_features.energy;
+      gfg[0][4] = this.audio_features.key;
+      gfg[0][5] = this.audio_features.loudness;
+      gfg[0][6] = this.audio_features.mode;
+      gfg[0][7] = this.audio_features.speechiness;
+      gfg[0][8] = this.audio_features.acousticness;
+      gfg[0][9] = this.audio_features.instrumentalness;
+      gfg[0][10] = this.audio_features.liveness;
+      gfg[0][11] = this.audio_features.valence;
+      gfg[0][12] = this.audio_features.tempo;
+      gfg[0][13] = this.audio_features.time_signature;
+
+const tfarr = [
         [
           this.audio_features.duration_ms,
           this.album_features.explicit,
@@ -348,10 +369,11 @@ export default {
       console.log(tfarr);
       this.album_features.explicit =
         this.album_features.explicit === false ? 0 : 1;
-      tfarr[0] = this.normalize(tfarr[0]);
-      console.log(tfarr);
+      gfg[0] = this.normalize(gfg[0]);
+      console.log("tfarr", gfg);
 
-      const x_test = tf.tensor2d(tfarr);
+      
+      const x_test = tf.tensor2d(gfg);
 
       this.predicted_popularity = this.predictValue([x_test]);
 
@@ -535,22 +557,22 @@ export default {
   margin-top: 2rem;
   th {
     text-align: start;
-    border-right: 1px solid #ac41ac;
-    border-left: 1px solid #ac41ac;
-    border-top: 1px solid #ac41ac;
-    border-bottom: 1px solid #ac41ac;
+    border: 1px solid  #961c96;
     vertical-align: middle;
+    padding-left: 5px;
+
   }
   tr {
     line-height: 24px;
   }
   tr:nth-child(even) {
-    background-color: #d93a93;
+    background-color: #d472aa;
   }
   td {
     vertical-align: middle;
     padding-left: 5px;
-    border: 1px solid #ac41ac;
+    border: 1px solid #961c96;
+      
   }
  
 }
@@ -561,23 +583,21 @@ export default {
     margin-top: 2rem;
   th {
     text-align: start;
-    border-right: 1px solid #ac41ac;
-    border-left: 1px solid #ac41ac;
-    border-top: 1px solid #ac41ac;
-    border-bottom: 1px solid #ac41ac;
+    border: 2px dotted #961c96;
     vertical-align: middle;
     width: 35%;
+    padding-left: 5px;
   }
   tr {
     line-height: 24px;
   }
   tr:nth-child(even) {
-    background-color: #d93a93;
-  }
+    
+}
   td {
     vertical-align: middle;
-    padding-left: 5px;
-    border: 1px solid #ac41ac;
+    border: 2px dotted #961c96;
+    padding: 4px 0px 5px 4px;
   }
 
 }
@@ -653,6 +673,12 @@ export default {
 .btn-style {
   width: 100%;
   margin-top: 1rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: none;
+}
+.btn-style-predict{
+  width: 100%;
   height: 2rem;
   border-radius: 8px;
   border: none;
