@@ -1,21 +1,11 @@
 <template>
-  <div v-if="playSong" class="">
-    <!--style="width:25%"-->
+  <div v-if="playSong">
+  
     <div
-      style="
-        width: 100%;
-        min-height: 25rem;
-        display: flex;
-        flex-direction: column;
-        justift-content: space-between;
-      "
+      class="spotifyCardContainer"
     >
       <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
+      class="spotifyCardSubContainer"
       >
         <iframe
           id="spotify-music"
@@ -26,12 +16,8 @@
           loading="lazy"
         ></iframe>
         <div
-          style="
-            width: 10%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          "
+        class="spotifyCardImgContainer"
+         
         >
           <img
             src="../assets/img/icons/close-icon.svg"
@@ -187,7 +173,7 @@
         </div>
 
         <div
-          style="width:100%; text-align-center; display:flex; flex-direction:column; align-items:center;"
+          class="popularityCardContainer"
         >
           <br />
           <br />
@@ -202,37 +188,33 @@
 
           <label for="predicted-popularity">Predicted popularity</label> <br />
           <div class="animated-progress progress-white" :style="cssProps">
-            <span class="predicted" style="color: black">
+            
+            <span v-if="this.predicted_popularity !== 0" class="predicted" style="color: black">
+  
               {{ this.predicted_popularity }}%</span
             >
           </div>
+          <span v-if="this.predicted_popularity === 0" style="margin-top:1rem">
+              See the predicted value by pressing the predict button.
+          </span>
 
           <br />
           <br />
 
           <div
-            style="
-              width: 70%;
-              height: 30px;
-              border-radius: 5px;
-              display: flex;
-              justify-content: space-between;
-            "
+          class="yearInputContainer"
+        
           >
             <div style="width: 50%">
               <input
-                style="
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 8px;
-                  border: none;
-                  padding: 5px;
-                "
+              class="yearInput"
+                
                 type="number"
                 min="1920"
                 max="2022"
                 step="1"
                 :value="this.year_of_song"
+                @input="event => this.year_of_song = event.target.value"
                 placeholder="year: yyyy"
               />
             </div>
@@ -240,6 +222,7 @@
               <button @click="predict" class="btn-style-predict">Predict</button>
             </div>
           </div>
+          <span class="buttonInfo" >Change the song's release year and see its estimated popularity if the Song was released in the year you entered.</span>
         </div>
       </div>
     </div>
@@ -281,7 +264,7 @@ export default {
       playSong: false,
       newUrl: '',
       actual_popularity: 0,
-      predicted_popularity: 52,
+      predicted_popularity: 0,
       posts: [],
       audio_features: {},
       album_features: {},
@@ -298,8 +281,25 @@ export default {
       that.model = await tf.loadLayersModel(
         'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model/model.json'
       );
+
+      // that.model1 = await tf.loadLayersModel(
+      //     'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model_1920-1940/model.json'
+      // );
+      // that.model2 = await tf.loadLayersModel(
+      //     'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model_1940-1960/model.json'
+      // );
+      // that.model3 = await tf.loadLayersModel(
+      //     'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model_1960-1980/model.json'
+      // );
+      // that.model4 = await tf.loadLayersModel(
+      //     'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model_1980-2000/model.json'
+      // );
+      // that.model5 = await tf.loadLayersModel(
+      //     'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model_2000-2023/model.json'
+      // );
     }
     loadModel();
+
   },
 
   methods: {
@@ -321,11 +321,31 @@ export default {
       );
     },
     predictValue(values) {
+      // if(this.year_of_song < 1940){
+      //    const prediction = this.model1.predict(values);
+      //    return prediction;
+      // }
+      // else if(this.year_of_song < 1960){
+      //    const prediction = this.model2.predict(values);
+      //    return prediction;
+      // }
+      // else if(this.year_of_song < 1980){
+      //    const prediction = this.model3.predict(values);
+      //    return prediction;
+      // }
+      // else if(this.year_of_song < 2000){
+      //    const prediction = this.model4.predict(values);
+      //    return prediction;
+      // }
+      // else{
+      //   const prediction = this.model5.predict(values);
+      //   return prediction;
+      // }
       const prediction = this.model.predict(values);
       return prediction;
     },
     predict() {
-    
+      
        // Create one dimensional array
       const input_arr = [[1, 1, 1, 1,
                     0, 0, 0, 1,
@@ -347,7 +367,6 @@ export default {
       input_arr[0][12] = this.audio_features.tempo;
       input_arr[0][13] = this.audio_features.time_signature;
 
-
       input_arr[0][1] = this.album_features.explicit === false ? 0 : 1;
 
       const st_input_arr = this.standardizeArray(input_arr[0])
@@ -362,31 +381,6 @@ export default {
 
       this.predicted_popularity = Math.round( this.predicted_popularity );
 
-      //prediction.print()
-      // console.log(this.predicted_popularity);
-      //   model.then(function (res) {
-      // console.log(12);
-      // const prediction = res.predict(x_test);
-      // console.log(prediction);
-      //   }, function (err) {
-      // console.log(err);
-      // } );
-      // var year;
-      // year = +this.album_features.album.release_date.substring(0,4);
-      // if(year >= 1920 && year < 1940){
-      //   this.predicted_popularity = model1.predict()
-      // }
-
-      // console.log((+this.album_features.album.release_date.substring(0,4))+3);
-      //this.actual_popularity =
-      // var x_test =tf.tensor2d([[3.65051179e-02, 0.00000000e+00, 2.55297679e-01, 9.69000000e-01,
-      //      8.18181818e-01, 8.06090920e-01, 0.00000000e+00, 1.08135942e-01,
-      //      9.98995984e-06, 8.71000000e-03, 1.69000000e-01, 7.82000000e-01,
-      //      6.19666289e-01, 8.00000000e-01]])
-      // console.log("started");
-
-      // var output = this.model.predict(x_test)
-      // console.log(output.print());
     },
     standardizeArray(array) {
       const mean = array.reduce((a, b) => a + b) / array.length;
@@ -644,7 +638,7 @@ export default {
   position: absolute;
   text-align: end;
   padding-right: 5px;
-  border-radius: 8px 0px 0px 8px;
+  border-radius: 8px 8px 8px 8px;
 }
 .animated-progress .predicted {
   height: 100%;
@@ -654,8 +648,7 @@ export default {
   line-height: 30px;
   position: absolute;
   text-align: end;
-  padding-right: 5px;
-  border-radius: 8px 0px 0px 8px;
+  border-radius: 8px 8px 8px 8px;
 }
 
 .progress-white span {
@@ -673,5 +666,43 @@ export default {
   height: 2rem;
   border-radius: 8px;
   border: none;
+}
+.spotifyCardContainer{
+    width: 100%;
+    min-height: 25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.spotifyCardSubContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.spotifyCardImgContainer{
+  width: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+}
+.popularityCardContainer{
+  width:100%; text-align:center; display:flex; flex-direction:column; align-items:center;
+}
+.yearInputContainer{
+ width: 70%;
+              height: 30px;
+              border-radius: 5px;
+              display: flex;
+              justify-content: space-between;
+}
+.yearInput{
+ width: 100%;
+                  height: 100%;
+                  border-radius: 8px;
+                  border: none;
+                  padding: 5px;
+}
+.buttonInfo{
+  width:70%; margin-top: 1rem; padding:3px; line-height: 1.4rem; font-family: 'IBM Plex Serif', serif;
 }
 </style>
