@@ -348,21 +348,19 @@ export default {
       input_arr[0][13] = this.audio_features.time_signature;
 
 
-      this.album_features.explicit =
-        this.album_features.explicit === false ? 0 : 1;
+      input_arr[0][1] = this.album_features.explicit === false ? 0 : 1;
 
-      console.log("input_arr: ", input_arr[0]);
       const st_input_arr = this.standardizeArray(input_arr[0])
-      console.log("st_input_arr: ", st_input_arr);
-      
+   
       const x_test = tf.tensor([st_input_arr]);
-      x_test.print();
+    
       this.predicted_popularity = this.predictValue(x_test);
       this.predicted_popularity.print();
       const tensorData = this.predicted_popularity.dataSync();
-      console.log("tensorData", tensorData);
+      
       this.predicted_popularity = tensorData[0];
-      console.log("this.predicted_popular: ", this.predicted_popularity);
+
+      this.predicted_popularity = Math.round( this.predicted_popularity );
 
       //prediction.print()
       // console.log(this.predicted_popularity);
