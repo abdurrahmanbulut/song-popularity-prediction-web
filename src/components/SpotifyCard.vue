@@ -327,58 +327,42 @@ export default {
     predict() {
     
        // Create one dimensional array
-      const gfg = [[3.65051179e-02, 0.00000000e+00, 2.55297679e-01, 9.69000000e-01,
-         8.18181818e-01, 8.06090920e-01, 0.00000000e+00, 1.08135942e-01,
-         9.98995984e-06, 8.71000000e-03, 1.69000000e-01, 7.82000000e-01,
-         6.19666289e-01, 8.00000000e-01]]
-    
-      gfg[0][0] = this.audio_features.duration_ms;
-      gfg[0][1] = this.album_features.explicit;
-      gfg[0][2] = this.audio_features.danceability;
-      gfg[0][3] = this.audio_features.energy;
-      gfg[0][4] = this.audio_features.key;
-      gfg[0][5] = this.audio_features.loudness;
-      gfg[0][6] = this.audio_features.mode;
-      gfg[0][7] = this.audio_features.speechiness;
-      gfg[0][8] = this.audio_features.acousticness;
-      gfg[0][9] = this.audio_features.instrumentalness;
-      gfg[0][10] = this.audio_features.liveness;
-      gfg[0][11] = this.audio_features.valence;
-      gfg[0][12] = this.audio_features.tempo;
-      gfg[0][13] = this.audio_features.time_signature;
+      const input_arr = [[1, 1, 1, 1,
+                    0, 0, 0, 1,
+                    0,0, 0, 1,
+                          1, 1]]
 
-const tfarr = [
-        [
-          this.audio_features.duration_ms,
-          this.album_features.explicit,
-          this.audio_features.danceability,
-          this.audio_features.energy,
-          this.audio_features.key,
-          this.audio_features.loudness,
-          this.audio_features.mode,
-          this.audio_features.speechiness,
-          this.audio_features.acousticness,
-          this.audio_features.instrumentalness,
-          this.audio_features.liveness,
-          this.audio_features.valence,
-          this.audio_features.tempo,
-          this.audio_features.time_signature,
-        ],
-      ];
+      input_arr[0][0] = this.audio_features.duration_ms / 1000.0;
+      input_arr[0][1] = this.album_features.explicit;
+      input_arr[0][2] = this.audio_features.danceability;
+      input_arr[0][3] = this.audio_features.energy;
+      input_arr[0][4] = this.audio_features.key;
+      input_arr[0][5] = this.audio_features.loudness;
+      input_arr[0][6] = this.audio_features.mode;
+      input_arr[0][7] = this.audio_features.speechiness;
+      input_arr[0][8] = this.audio_features.acousticness;
+      input_arr[0][9] = this.audio_features.instrumentalness;
+      input_arr[0][10] = this.audio_features.liveness;
+      input_arr[0][11] = this.audio_features.valence;
+      input_arr[0][12] = this.audio_features.tempo;
+      input_arr[0][13] = this.audio_features.time_signature;
 
-      console.log(tfarr);
+
       this.album_features.explicit =
         this.album_features.explicit === false ? 0 : 1;
-      gfg[0] = this.normalize(gfg[0]);
-      console.log("tfarr", gfg);
 
+      console.log("input_arr: ", input_arr[0]);
+      const st_input_arr = this.standardizeArray(input_arr[0])
+      console.log("st_input_arr: ", st_input_arr);
       
-      const x_test = tf.tensor2d(gfg);
-
-      this.predicted_popularity = this.predictValue([x_test]);
-
+      const x_test = tf.tensor([st_input_arr]);
+      x_test.print();
+      this.predicted_popularity = this.predictValue(x_test);
+      this.predicted_popularity.print();
       const tensorData = this.predicted_popularity.dataSync();
+      console.log("tensorData", tensorData);
       this.predicted_popularity = tensorData[0];
+      console.log("this.predicted_popular: ", this.predicted_popularity);
 
       //prediction.print()
       // console.log(this.predicted_popularity);
@@ -405,6 +389,15 @@ const tfarr = [
 
       // var output = this.model.predict(x_test)
       // console.log(output.print());
+    },
+    standardizeArray(array) {
+      const mean = array.reduce((a, b) => a + b) / array.length;
+      const std = Math.sqrt(
+        array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) /
+          (array.length - 1)
+      );
+
+      return array.map(x => (x - mean) / std);
     },
     changeInfo() {
       this.info = !this.info;
