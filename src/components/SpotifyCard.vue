@@ -249,6 +249,7 @@
 import { mapActions } from 'vuex';
 import axios from 'axios';
 import * as tf from '@tensorflow/tfjs';
+import jsonpickle from "jsonpickle";
 
 export default {
   props: {
@@ -275,9 +276,11 @@ export default {
       info: true,
     };
   },
+  
   mounted() {
     let that = this;
     async function loadModel() {
+      
       that.model = await tf.loadLayersModel(
         'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model/model.json'
       );
@@ -298,7 +301,17 @@ export default {
       //     'https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model_2000-2023/model.json'
       // );
     }
+    async function created() {
+    // Fetch the model file from GitHub
+      const response = await fetch("https://raw.githubusercontent.com/abdurrahmanbulut/song-popularity-prediction-web/redirect/src/assets/model/model-sci/model.json");
+      const modelJson = await response.text();
+
+      // Deserialize the JSON string into a Python object
+      that.model2 = jsonpickle.decode(modelJson);
+    }
+    
     loadModel();
+    created();
 
   },
 
@@ -341,7 +354,7 @@ export default {
       //   const prediction = this.model5.predict(values);
       //   return prediction;
       // }
-      const prediction = this.model.predict(values);
+      const prediction = this.model2.predict(values);
       return prediction;
     },
     predict() {
@@ -370,8 +383,10 @@ export default {
       input_arr[0][1] = this.album_features.explicit === false ? 0 : 1;
 
       const st_input_arr = this.standardizeArray(input_arr[0])
-   
+      console.log(st_input_arr);
       const x_test = tf.tensor([st_input_arr]);
+
+      
     
       this.predicted_popularity = this.predictValue(x_test);
       this.predicted_popularity.print();
