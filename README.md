@@ -2,8 +2,11 @@
 [Website - Live](https://songpopularity.netlify.app)
 
 Test account:
-e-mail: gtutest@mail.com
+```
+e-mail:   gtutest@mail.com
 password: gtutest1
+```
+
 ```
 npm install
 ```
